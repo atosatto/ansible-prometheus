@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+
+{{ _prometheus_config_default | combine(prometheus_config, recursive=True) | to_nice_yaml(width=80, indent=2) }}
+

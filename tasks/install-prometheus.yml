@@ -1,0 +1,50 @@
+---
+
+- name: Fetch the Prometheus release information from Github
+  uri:
+    url: "https://api.github.com/repos/prometheus/prometheus/releases/{{ prometheus_release_tag }}"
+    method: GET
+  register: _prometheus_github_release
+
+- name: Get the Prometheus latest release tag
+  set_fact:
+    prometheus_release_tag: "{{ _prometheus_github_release['json'] | json_query('tag_name') }}"
+  when: prometheus_release_tag == "latest"
+
+- name: Get the name of the Prometheus release artifact
+  set_fact:
+    _prometheus_release_build: "{{ hostvars[inventory_hostname] | prometheus_release_build(prometheus_release_tag) }}"
+
+- name: Make sure the Prometheus install directory exists
+  file:
+    dest: "{{ prometheus_install_path }}"
+    state: directory
+
+- name: Download Prometheus
+  unarchive:
+    src: "{{ _prometheus_github_release['json'] | json_query(_prometheus_release_asset_url_query) }}"
+    dest: "{{ prometheus_install_path }}"
+    remote_src: yes
+  vars:
+    _prometheus_release_asset_url_query: "assets[?name=='{{ _prometheus_release_build }}.tar.gz'] | [0].browser_download_url"
+
+- name: Symlink the Prometheus binaries
+  file:
+    src: "{{ prometheus_install_path }}/{{ _prometheus_release_build }}/{{ item }}"
+    dest: "{{ prometheus_bin_path }}/{{ item }}"
+    state: link
+  with_items:
+    - prometheus
+    - promtool
+
+- name: Create the Prometheus group
+  group:
+    name: "{{ prometheus_group }}"
+    system: true
+
+- name: Create the Prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    system: yes
+    createhome: no

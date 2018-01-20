@@ -1,0 +1,31 @@
+---
+
+galaxy_info:
+  author: Andrea Tosatto
+  description: Install and Configure Prometheus
+  issue_tracker_url: https://github.com/atosatto/ansible-prometheus/issues
+  license: MIT
+  min_ansible_version: 2.2
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - trusty
+        - utopic
+        - vivid
+        - wily
+        - xenial
+    - name: Debian
+      versions:
+        - stretch
+        - jessie
+
+  galaxy_tags:
+    - prometheus
+    - monitoring
+    - system
+
+dependencies: []

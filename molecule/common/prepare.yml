@@ -1,0 +1,6 @@
+---
+
+- name: Prepare the test targets before installing Prometheus
+  hosts: all
+  gather_facts: false
+  tasks: []

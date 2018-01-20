@@ -1,0 +1,6 @@
+---
+
+- name: Install Prometheus
+  hosts: all
+  roles:
+    - { role: ansible-prometheus }

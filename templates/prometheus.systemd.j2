@@ -1,0 +1,21 @@
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ prometheus_user }}
+Group={{ prometheus_group }}
+Type=simple
+ExecStart={{ prometheus_bin_path }}/prometheus \
+    --config.file {{ prometheus_config_path }}/{{ prometheus_config_file }} \
+    --web.listen-address {{ prometheus_listen_address }} \
+    --storage.tsdb.path {{ prometheus_tsdb_path }} \
+    --storage.tsdb.retention {{ prometheus_tsdb_retention }} \
+    --log.level {{ prometheus_log_level }} \
+    {{ prometheus_additional_cli_args }}
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

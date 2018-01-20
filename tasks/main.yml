@@ -1,0 +1,10 @@
+---
+
+- include: install-prometheus.yml
+- include: configure-prometheus.yml
+
+- name: Start and enable the Prometheus service
+  service:
+    name: prometheus
+    state: started
+    enabled: true

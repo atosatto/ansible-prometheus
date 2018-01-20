@@ -1,0 +1,36 @@
+---
+
+# The Prometheus release to be installed
+prometheus_release_tag: "latest"
+
+# Prometheus user and group
+prometheus_user: "prometheus"
+prometheus_group: "prometheus"
+
+# Directory containing the downloaded Prometheus release
+prometheus_install_path: "/opt"
+
+# Directory to which symlink the installed Prometheus binaries
+prometheus_bin_path: "/usr/local/bin"
+
+# Prometheus configuration file and directory
+prometheus_config_path: "/etc/prometheus"
+prometheus_config_file: "prometheus.yml"
+
+# Prometheus configuration
+# (see https://prometheus.io/docs/prometheus/latest/configuration/configuration/)
+prometheus_config: {}
+
+# Prometheus WebServer listen address
+prometheus_listen_address: "127.0.0.1:9090"
+
+# Prometheus local storage path
+# (see https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects)
+prometheus_tsdb_path: "/var/lib/prometheus"
+prometheus_tsdb_retention: "15d"
+
+# Prometheus log level
+prometheus_log_level: "info"
+
+# Additional command-line arguments to be added to the Prometheus unit
+prometheus_additional_cli_args: ""
