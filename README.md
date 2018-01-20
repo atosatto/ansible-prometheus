@@ -40,12 +40,12 @@ Prometheus configuration file and directory
 
 YAML dictionary holding the Prometheus configuration.
 The complete Prometheus configuration reference can be found at
-https://prometheus.io/docs/prometheus/latest/configuration/configuration/.
+https://prometheus.io/docs/prometheus/latest/configuration/configuration/.<br/>
 **NOTE**: the provided prometheus configuration will be merged with the default one defined in `vars/main.yml`.
 
     prometheus_listen_address: "127.0.0.1:9090"
 
-The Prometheus WebServer listen ip address and port.
+The Prometheus WebServer listen ip address and port.<br/>
 **NOTE**: the Prometheus metrics will be available at `{{ prometheus_listen_address }}/metrics`.
 
     prometheus_tsdb_path: "/var/lib/prometheus"
