@@ -1,6 +1,9 @@
 Ansible Role: Prometheus
 ========================
 
+[![Build Status](https://travis-ci.org/atosatto/ansible-prometheus.svg?branch=master)](https://travis-ci.org/atosatto/ansible-prometheus)
+[![Galaxy](http://img.shields.io/badge/galaxy-atosatto.prometheus.svg?style=flat-square)](https://galaxy.ansible.com/atosatto/prometheus)
+
 Install and configure Prometheus.
 
 Requirements
