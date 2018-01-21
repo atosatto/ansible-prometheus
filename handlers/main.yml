@@ -6,6 +6,5 @@
     state: restarted
 
 - name: reload systemd and restart prometheus
-  systemd:
-    daemon_reload: yes
+  command: systemctl daemon-reload
   notify: restart prometheus
