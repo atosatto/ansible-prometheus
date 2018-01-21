@@ -9,7 +9,9 @@ Install and configure Prometheus.
 Requirements
 ------------
 
-An Ansible 2.2 or higher installation.
+An Ansible 2.2 or higher installation.<br />
+This role makes use of the Ansible `json_filter` that requires `jmespath` to be installed on the Ansible machine.
+See the `requirements.txt` file for further details on the specific version of `jmespath` required by the role.
 
 Role Variables
 --------------
@@ -86,7 +88,7 @@ Example Playbook
 Testing
 -------
 
-Tests are performed by [Molecule](http://molecule.readthedocs.org/en/latest/).
+Tests are automated with [Molecule](http://molecule.readthedocs.org/en/latest/).
 
     $ pip install tox
 
