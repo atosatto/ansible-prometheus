@@ -8,3 +8,5 @@
 - name: reload systemd and restart prometheus
   command: systemctl daemon-reload
   notify: restart prometheus
+  tags:
+    - skip_ansible_lint
