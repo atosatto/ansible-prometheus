@@ -1,0 +1,46 @@
+---
+
+scenario:
+  # Test the injection of additional Prometheus configuration
+  name: prometheus-config
+
+driver:
+  name: docker
+
+dependency:
+  name: galaxy
+
+platforms:
+
+  - name: centos-7
+    image: centos:7
+    dockerfile_tpl: centos-systemd
+
+  - name: ubuntu-1604
+    image: ubuntu:16.04
+    dockerfile_tpl: debian-systemd
+
+  - name: debian-9
+    image: debian:9
+
+provisioner:
+  name: ansible
+  options:
+    diff: True
+    v: True
+  playbooks:
+    create: ../common/create.yml
+    destroy: ../common/destroy.yml
+    prepare: ../common/prepare.yml
+  lint:
+    name: ansible-lint
+
+lint:
+  name: yamllint
+
+verifier:
+  name: testinfra
+  additional_files_or_dirs:
+    - ../common/tests/
+  lint:
+    name: flake8   # Will use the rules defined in .flake8

@@ -1,0 +1,25 @@
+---
+
+- name: Install Prometheus with Custom Configuration
+  hosts: all
+  vars:
+    # overrides the default configuration defined in vars/main.yml
+    prometheus_config:
+      global:
+        # overrides the default scrape_interval of 15s
+        scrape_interval: 1m
+        # leaves the evaluation_interval to 15s
+        #evaluation_interval: 15s
+        # defines the a new scrape_timeout global variable
+        scrape_timeout: 10s
+      scrape_configs:
+        # scrape prometheus metrics
+        - job_name: "prometheus"
+          static_configs:
+            - targets: ["localhost:9090"]
+        # scrape node-exporter metrics
+        - job_name: "node-exporter"
+          static_configs:
+            - targets: ["localhost:9100"]
+  roles:
+    - { role: ansible-prometheus }
