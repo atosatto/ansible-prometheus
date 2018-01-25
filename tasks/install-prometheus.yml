@@ -1,8 +1,17 @@
 ---
 
-- name: Fetch the Prometheus release information from Github
+- name: Set the Github releases API endpoint
+  set_fact:
+    _prometheus_github_api_url: |-
+      {% if prometheus_release_tag == 'latest' %}
+      https://api.github.com/repos/prometheus/prometheus/releases/latest
+      {% else %}
+      https://api.github.com/repos/prometheus/prometheus/releases/tags/{{ prometheus_release_tag }}
+      {% endif %}
+
+- name: Fetch the latest Prometheus release information from Github
   uri:
-    url: "https://api.github.com/repos/prometheus/prometheus/releases/{{ prometheus_release_tag }}"
+    url: "{{ _prometheus_github_api_url }}"
     method: GET
   register: _prometheus_github_release
 
@@ -11,7 +20,7 @@
     prometheus_release_tag: "{{ _prometheus_github_release['json'] | json_query('tag_name') }}"
   when: prometheus_release_tag == "latest"
 
-- name: Get the name of the Prometheus release artifact
+- name: Set the name of the Prometheus release artifact
   set_fact:
     _prometheus_release_build: "{{ hostvars[inventory_hostname] | prometheus_release_build(prometheus_release_tag) }}"
 

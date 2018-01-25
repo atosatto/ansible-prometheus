@@ -54,7 +54,12 @@ The Prometheus WebServer listen ip address and port.<br/>
 **NOTE**: the Prometheus metrics will be available at `{{ prometheus_listen_address }}/metrics`.
 
     prometheus_tsdb_path: "/var/lib/prometheus"
-    prometheus_tsdb_retention: "15d"
+    prometheus_tsdb_retention: |-
+      {%- if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') | version_compare('2.0.0', '>=') -%}
+      15d
+      {%- else -%}
+      360h0m0s
+      {%- endif -%}
 
 Directory containing the Prometheus time-series database files.
 By default, the old data will be deleted after 14 days.
@@ -76,8 +81,8 @@ Dependencies
 
 None.
 
-Example Playbook
-----------------
+Example Playbooks
+-----------------
 
     $ cat playbook.yml
     - name: "Install and configure Prometheus"

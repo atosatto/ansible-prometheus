@@ -1,0 +1,8 @@
+---
+
+- name: Install Prometheus v1.8.2
+  hosts: all
+  vars:
+    prometheus_release_tag: "v1.8.2"
+  roles:
+    - { role: ansible-prometheus }

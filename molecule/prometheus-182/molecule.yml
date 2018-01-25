@@ -1,8 +1,8 @@
 ---
 
 scenario:
-  # Test the out-of-the-box installation of the latest Prometheus release
-  name: prometheus-latest
+  # Test the installation of an older version of Prometheus
+  name: prometheus-182
 
 driver:
   name: docker

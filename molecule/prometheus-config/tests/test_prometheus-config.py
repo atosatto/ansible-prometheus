@@ -1,7 +1,4 @@
 import os
-import re
-import json
-import urllib2
 
 import testinfra.utils.ansible_runner
 
@@ -20,6 +17,6 @@ def test_prometheus_custom_config(host):
     # we check that the new variable called 'scrape_timeout' as been added to the global configuration
     assert f.contains('scrape_timeout: 10s')
     # we check that the 'prometheus' job is defined
-    assert f.contains('job_name: "prometheus"')
+    assert f.contains('job_name: prometheus')
     # we check that the 'node_exporter' job is defined
-    assert f.contains('job_name: "node_exporter"')
+    assert f.contains('job_name: node_exporter')

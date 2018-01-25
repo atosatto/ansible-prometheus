@@ -27,7 +27,12 @@ prometheus_listen_address: "127.0.0.1:9090"
 # Prometheus local storage path
 # (see https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects)
 prometheus_tsdb_path: "/var/lib/prometheus"
-prometheus_tsdb_retention: "15d"
+prometheus_tsdb_retention: |-
+  {%- if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') | version_compare('2.0.0', '>=') -%}
+  15d
+  {%- else -%}
+  360h0m0s
+  {%- endif -%}
 
 # Prometheus log level
 prometheus_log_level: "info"

@@ -17,8 +17,8 @@
         - job_name: "prometheus"
           static_configs:
             - targets: ["localhost:9090"]
-        # scrape node-exporter metrics
-        - job_name: "node-exporter"
+        # scrape node_exporter metrics
+        - job_name: "node_exporter"
           static_configs:
             - targets: ["localhost:9100"]
   roles:
