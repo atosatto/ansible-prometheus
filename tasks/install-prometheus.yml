@@ -33,8 +33,7 @@
   unarchive:
     src: "{{ _prometheus_github_release['json'] | json_query(_prometheus_release_asset_url_query) }}"
     dest: "{{ prometheus_install_path }}"
-    creates:
-      src: "{{ prometheus_install_path }}/{{ _prometheus_release_build }}/prometheus"
+    creates: "{{ prometheus_install_path }}/{{ _prometheus_release_build }}/prometheus"
     remote_src: yes
   vars:
     _prometheus_release_asset_url_query: "assets[?name=='{{ _prometheus_release_build }}.tar.gz'] | [0].browser_download_url"
