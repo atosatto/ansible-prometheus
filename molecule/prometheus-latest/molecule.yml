@@ -22,6 +22,7 @@ platforms:
 
   - name: debian-9
     image: debian:9
+    dockerfile_tpl: debian-systemd
 
 provisioner:
   name: ansible
