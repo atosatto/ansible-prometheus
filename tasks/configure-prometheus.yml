@@ -19,7 +19,7 @@
 - name: Set the promtool configuration validation command
   set_fact:
     _prometheus_promtool_validate_cmd: |-
-      {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') | version_compare('2.0.0', '>=') %}
+      {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') is version_compare('2.0.0', '>=') %}
       {{ prometheus_bin_path }}/promtool check config %s
       {% else %}
       {{ prometheus_bin_path }}/promtool check-config %s

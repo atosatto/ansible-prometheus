@@ -55,7 +55,7 @@ The Prometheus WebServer listen ip address and port.<br/>
 
     prometheus_tsdb_path: "/var/lib/prometheus"
     prometheus_tsdb_retention: |-
-      {%- if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') | version_compare('2.0.0', '>=') -%}
+      {%- if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') is version_compare('2.0.0', '>=') -%}
       15d
       {%- else -%}
       360h0m0s

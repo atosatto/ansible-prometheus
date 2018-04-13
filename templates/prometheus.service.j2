@@ -20,7 +20,7 @@ DAEMON={{ prometheus_bin_path}}/$NAME
 PIDFILE=/var/run/$NAME/$NAME.pid
 DAEMON_ARGS="--config.file {{ prometheus_config_path }}/{{ prometheus_config_file }} \
     --web.listen-address {{ prometheus_listen_address }} \
-    {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') | version_compare('2.0.0', '>=') -%}
+    {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') is version_compare('2.0.0', '>=') -%}
     --storage.tsdb.path {{ prometheus_tsdb_path }} \
     --storage.tsdb.retention {{ prometheus_tsdb_retention }} \
     {% else -%}
