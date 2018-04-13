@@ -20,6 +20,14 @@ before_install:
 install:
   - pip install tox-travis
 
+# Parallel testing of the supported Ansible versions
+env:
+  matrix:
+    - ANSIBLE=2.2
+    - ANSIBLE=2.3
+    - ANSIBLE=2.4
+    - ANSIBLE=2.5
+
 # Tests all the scenarios
 script:
   - tox

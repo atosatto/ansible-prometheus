@@ -14,6 +14,9 @@
     url: "{{ _prometheus_github_api_url }}"
     method: GET
   register: _prometheus_github_release
+  until: _prometheus_github_release.status == 200
+  retries: 5
+  delay: 15
 
 - name: Get the Prometheus latest release tag
   set_fact:
@@ -33,6 +36,7 @@
   unarchive:
     src: "{{ _prometheus_github_release['json'] | json_query(_prometheus_release_asset_url_query) }}"
     dest: "{{ prometheus_install_path }}"
+    creates: "{{ prometheus_install_path }}/{{ _prometheus_release_build }}/prometheus"
     remote_src: yes
   vars:
     _prometheus_release_asset_url_query: "assets[?name=='{{ _prometheus_release_build }}.tar.gz'] | [0].browser_download_url"

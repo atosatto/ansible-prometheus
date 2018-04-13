@@ -22,6 +22,7 @@ platforms:
 
   - name: debian-9
     image: debian:9
+    dockerfile_tpl: debian-systemd
 
 provisioner:
   name: ansible
@@ -29,9 +30,9 @@ provisioner:
     diff: True
     v: True
   playbooks:
-    create: ../common/create.yml
-    destroy: ../common/destroy.yml
-    prepare: ../common/prepare.yml
+    create: ../resources/create.yml
+    destroy: ../resources/destroy.yml
+    prepare: ../resources/prepare.yml
   lint:
     name: ansible-lint
 
@@ -40,7 +41,9 @@ lint:
 
 verifier:
   name: testinfra
+  options:
+    vvv: True
   additional_files_or_dirs:
-    - ../common/tests/
+    - ../../resources/tests/
   lint:
     name: flake8   # Will use the rules defined in .flake8
