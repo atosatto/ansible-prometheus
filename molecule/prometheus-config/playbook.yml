@@ -8,8 +8,6 @@
       global:
         # overrides the default scrape_interval of 15s
         scrape_interval: 1m
-        # leaves the evaluation_interval to 15s
-        #evaluation_interval: 15s
         # defines the a new scrape_timeout global variable
         scrape_timeout: 10s
       scrape_configs:
