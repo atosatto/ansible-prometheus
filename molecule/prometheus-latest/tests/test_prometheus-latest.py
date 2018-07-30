@@ -1,15 +1,14 @@
 import os
 import re
-import json
-import urllib2
+from github import Github
 
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
-prom_last_release = re.sub('^v(.*)$', '\\1',
-        json.loads(urllib2.urlopen("https://api.github.com/repos/prometheus/prometheus/releases/latest").read())["tag_name"])
+gh = Github(os.getenv('TRAVIS_GH_TOKEN', None))
+prom_last_release = re.sub('^v(.*)$', '\\1', gh.get_repo('prometheus/prometheus').get_latest_release().tag_name)
 prom_last_artifact = "prometheus-" + prom_last_release + ".linux-amd64"
 
 
