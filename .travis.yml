@@ -23,7 +23,6 @@ install:
 # Parallel testing of the supported Ansible versions
 env:
   matrix:
-    - ANSIBLE=2.3
     - ANSIBLE=2.5
     - ANSIBLE=2.6
     - ANSIBLE=2.7
