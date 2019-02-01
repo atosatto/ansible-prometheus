@@ -20,6 +20,10 @@ platforms:
     image: ubuntu:16.04
     dockerfile_tpl: debian-systemd
 
+  - name: ubuntu-1804
+    image: ubuntu:18.04
+    dockerfile_tpl: debian-systemd
+
   - name: debian-9
     image: debian:9
     dockerfile_tpl: debian-systemd
