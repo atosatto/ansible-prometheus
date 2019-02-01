@@ -9,10 +9,15 @@
       https://api.github.com/repos/prometheus/prometheus/releases/tags/{{ prometheus_release_tag }}
       {% endif %}
 
+- name: Set the Github API token
+  set_fact:
+    _prometheus_github_api_token: "{{ lookup('env', 'GITHUB_API_TOKEN') }}"
+
 - name: Fetch the latest Prometheus release information from Github
   uri:
     url: "{{ _prometheus_github_api_url }}"
     method: GET
+    HEADER_Authorization: "{% if _prometheus_github_api_token != '' %}token {{ _prometheus_github_api_token }}{% endif %}"
   register: _prometheus_github_release
   until: _prometheus_github_release.status == 200
   retries: 5

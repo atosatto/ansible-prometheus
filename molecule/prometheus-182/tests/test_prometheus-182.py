@@ -7,7 +7,7 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
-gh = Github(os.getenv('TRAVIS_GH_TOKEN', None))
+gh = Github(os.getenv('GITHUB_API_TOKEN', None))
 prom_release = re.sub('^v(.*)$', '\\1', gh.get_repo('prometheus/prometheus').get_release("v1.8.2").tag_name)
 prom_artifact = "prometheus-" + prom_release + ".linux-amd64"
 
