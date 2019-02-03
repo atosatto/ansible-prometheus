@@ -23,6 +23,10 @@ Available variables are listed below, along with default values (see defaults/ma
 The Prometheus release to be installed.
 By default, the latest release published at https://github.com/prometheus/prometheus/releases.
 
+    prometheus_release_url: ""
+
+If set, the role will download Prometheus from the provided URL instead of using the download URL indicated in the Prometheus Github release metadata.
+
     prometheus_user: "prometheus"
     prometheus_group: "prometheus"
 
