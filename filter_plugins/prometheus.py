@@ -24,7 +24,7 @@ def prometheus_release_build(hostvars, promrelease):
     system = hostvars['ansible_system']
 
     version = promrelease
-    if promrelease != 'latest'
+    if promrelease != 'latest':
         version = re.sub('^v(.*)$', '\\1', promrelease)
 
     return 'prometheus-' + version + '.' + PROM_SYSTEM[system] + '-' + PROM_ARCHITECTURE[architecture]

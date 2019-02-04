@@ -17,7 +17,7 @@
   uri:
     url: "{{ _prometheus_github_api_url }}"
     method: GET
-    HEADER_Authorization: "{% if _prometheus_github_api_token != '' %}token {{ _prometheus_github_api_token }}{% endif %}"
+    HEADER_Authorization: "{% if _prometheus_github_api_token %}token {{ _prometheus_github_api_token }}{% endif %}"
   register: _prometheus_github_release
   until: _prometheus_github_release.status == 200
   retries: 5
@@ -32,4 +32,4 @@
   set_fact:
     prometheus_release_url: "{{ _prometheus_github_release['json'] | json_query(_prometheus_release_asset_url_query) }}"
   vars:
-    _prometheus_release_asset_url_query: "assets[?name=='{{ _prometheus_release_artifact }}.tar.gz'] | [0].browser_download_url"
+    _prometheus_release_asset_url_query: "assets[?name=='{{ hostvars[inventory_hostname] | prometheus_release_build(prometheus_release_tag) }}.tar.gz'] | [0].browser_download_url"

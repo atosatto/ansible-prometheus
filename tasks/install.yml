@@ -1,9 +1,9 @@
 ---
 
-- include: download-from-github.yml
+- include: github-release.yml
   when: prometheus_release_url == ''
 
-- name: Set the name of the Prometheus build
+- name: Get the name of the Prometheus build
   set_fact:
     _prometheus_build: "{{ hostvars[inventory_hostname] | prometheus_release_build(prometheus_release_tag) }}"
 
