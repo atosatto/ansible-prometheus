@@ -3,10 +3,6 @@
 - include: github-release.yml
   when: prometheus_release_url == ''
 
-- name: Get the name of the Prometheus build
-  set_fact:
-    _prometheus_build: "{{ hostvars[inventory_hostname] | prometheus_release_build(prometheus_release_tag) }}"
-
 - name: Make sure the Prometheus installation directory exists
   file:
     dest: "{{ prometheus_install_path }}"
@@ -15,16 +11,24 @@
     group: "root"
     mode: 0755
 
+- name: Get the name of the Prometheus release archive
+  set_fact:
+    _prometheus_archive: "{{ prometheus_release_url | basename }}"
+
+- name: Set the Prometheus installation path
+  set_fact:
+    _prometheus_install_path: "{{ prometheus_install_path }}/{{ _prometheus_archive | regex_replace('\\.zip|\\.gz|\\.tar|\\.tgz|\\.bzip','') }}"
+
 - name: Download Prometheus
   unarchive:
     src: "{{ prometheus_release_url }}"
     dest: "{{ prometheus_install_path }}"
-    creates: "{{ prometheus_install_path }}/{{ _prometheus_build }}/prometheus"
+    creates: "{{ _prometheus_install_path }}/prometheus"
     remote_src: yes
 
 - name: Symlink the Prometheus binaries
   file:
-    src: "{{ prometheus_install_path }}/{{ _prometheus_build }}/{{ item }}"
+    src: "{{ _prometheus_install_path }}/{{ item }}"
     dest: "{{ prometheus_bin_path }}/{{ item }}"
     state: link
   with_items:
