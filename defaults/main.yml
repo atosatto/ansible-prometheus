@@ -3,6 +3,9 @@
 # The Prometheus release to be installed
 prometheus_release_tag: "latest"
 
+# The URL from which download the Prometheus release
+prometheus_release_url: ""
+
 # Prometheus user and group
 prometheus_user: "prometheus"
 prometheus_group: "prometheus"

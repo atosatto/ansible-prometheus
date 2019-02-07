@@ -1,0 +1,48 @@
+---
+
+- include: github-release.yml
+  when: prometheus_release_url == ''
+
+- name: Make sure the Prometheus installation directory exists
+  file:
+    dest: "{{ prometheus_install_path }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: Get the name of the Prometheus release archive
+  set_fact:
+    _prometheus_archive: "{{ prometheus_release_url | basename }}"
+
+- name: Set the Prometheus installation path
+  set_fact:
+    _prometheus_install_path: "{{ prometheus_install_path }}/{{ _prometheus_archive | regex_replace('\\.zip|\\.gz|\\.tar|\\.tgz|\\.bzip','') }}"
+
+- name: Download Prometheus
+  unarchive:
+    src: "{{ prometheus_release_url }}"
+    dest: "{{ prometheus_install_path }}"
+    creates: "{{ _prometheus_install_path }}/prometheus"
+    remote_src: yes
+
+- name: Symlink the Prometheus binaries
+  file:
+    src: "{{ _prometheus_install_path }}/{{ item }}"
+    dest: "{{ prometheus_bin_path }}/{{ item }}"
+    state: link
+  with_items:
+    - prometheus
+    - promtool
+
+- name: Create the Prometheus group
+  group:
+    name: "{{ prometheus_group }}"
+    system: true
+
+- name: Create the Prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    system: yes
+    createhome: no

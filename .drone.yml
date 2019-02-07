@@ -1,0 +1,68 @@
+---
+
+kind: pipeline
+name: molecule-ci
+
+workspace:
+  base: /drone
+  path: src/${DRONE_REPO}
+
+steps:
+
+  - name: ansible-25
+    image: atosatto/python-dind
+    environment:
+      ANSIBLE: 2.5
+    volumes:
+      - name: dockersock
+        path: /var/run
+    commands:
+      - pip install tox
+      - tox
+
+  - name: ansible-26
+    image: atosatto/python-dind
+    environment:
+      ANSIBLE: 2.6
+    volumes:
+      - name: dockersock
+        path: /var/run
+    commands:
+      - pip install tox
+      - tox
+
+  - name: ansible-27
+    image: atosatto/python-dind
+    environment:
+      ANSIBLE: 2.7
+    volumes:
+      - name: dockersock
+        path: /var/run
+    commands:
+      - pip install tox
+      - tox
+
+  - name: notify
+    image: plugins/webhook
+    settings:
+      urls: https://galaxy.ansible.com/api/v1/notifications/
+      debug: true
+    when:
+      branch: master
+      event: push
+    depends_on:
+      - ansible-25
+      - ansible-26
+      - ansible-27
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}

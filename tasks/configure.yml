@@ -16,7 +16,7 @@
     group: "{{ prometheus_group }}"
     mode: 0755
 
-- name: Set the promtool configuration validation command
+- name: Define the Prometheus configuration validation command
   set_fact:
     _prometheus_promtool_validate_cmd: |-
       {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') is version_compare('2.0.0', '>=') %}
