@@ -1,0 +1,29 @@
+---
+
+- name: Define the Prometheus rules validation command
+  set_fact:
+    _prometheus_promtool_check_rules_cmd: |-
+      {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') is version_compare('2.0.0', '>=') %}
+      {{ prometheus_bin_path }}/promtool check rules %s
+      {% else %}
+      {{ prometheus_bin_path }}/promtool check-rules %s
+      {% endif %}
+
+- name: Create the Prometheus rule files directory
+  file:
+    name: "{{ prometheus_rule_files_path }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0755
+
+- name: Create the Prometheus rule files
+  copy:
+    content: "{{ prometheus_rule_files[item] }}"
+    dest: "{{ prometheus_rule_files_path }}/{{ item }}.yml"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0644
+    #validate: "{{ _prometheus_promtool_check_rules_cmd }}"
+  notify: reload prometheus
+  with_items: "{{ prometheus_rule_files }}"

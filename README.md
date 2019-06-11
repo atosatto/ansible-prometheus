@@ -52,6 +52,26 @@ The complete Prometheus configuration reference can be found at
 https://prometheus.io/docs/prometheus/latest/configuration/configuration/.<br/>
 **NOTE**: the provided prometheus configuration will be merged with the default one defined in `vars/main.yml`.
 
+    prometheus_rule_files_path: "{{ prometheus_config_path }}/rules"
+    prometheus_rule_files: {}
+    # e.g.
+    # prometheus_rule_files:
+    # alertmanager: |
+    #   groups:
+    #     - name: alertmanager.rules
+    #       rules:
+    #         - alert: AlertmanagerNotificationsFailing
+    #           expr: rate(alertmanager_notifications_failed_total[1m]) > 0
+    #           for: 1m
+    #           labels:
+    #             service: alertmanager
+    #             severity: critical
+    #           annotations:
+    #             title: Alertmanager is failing sending notications
+    #             description: Alertmanager is seeing errors for integration {{$labels.integration}}
+
+Dictionary of Prometheus rule files to be created into the specified `prometheus_rule_files_path`.
+
     prometheus_listen_address: "127.0.0.1:9090"
 
 The Prometheus WebServer listen ip address and port.<br/>
@@ -67,7 +87,7 @@ The Prometheus WebServer listen ip address and port.<br/>
 
 Directory containing the Prometheus time-series database files.
 By default, the old data will be deleted after 14 days.
-An in depth analysis of the Operational Aspects of Prometheus Storage is available at 
+An in depth analysis of the Operational Aspects of Prometheus Storage is available at
 https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects.
 
     prometheus_log_level: "info"
@@ -107,7 +127,7 @@ To test all the scenarios run
 
 To run a custom molecule command
 
-    $ tox -e py27-ansible23 -- molecule test -s prometheus-latest 
+    $ tox -e py27-ansible23 -- molecule test -s prometheus-latest
 
 License
 -------

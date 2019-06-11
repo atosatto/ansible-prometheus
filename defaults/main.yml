@@ -24,6 +24,10 @@ prometheus_config_file: "prometheus.yml"
 # (see https://prometheus.io/docs/prometheus/latest/configuration/configuration/)
 prometheus_config: {}
 
+# Prometheus rules configuration
+prometheus_rule_files_path: "{{ prometheus_config_path }}/rules"
+prometheus_rule_files: {}
+
 # Prometheus WebServer listen address
 prometheus_listen_address: "127.0.0.1:9090"
 
