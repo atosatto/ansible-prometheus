@@ -24,6 +24,6 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0644
-    #validate: "{{ _prometheus_promtool_check_rules_cmd }}"
+    validate: "{{ _prometheus_promtool_check_rules_cmd }}"
   notify: reload prometheus
   with_items: "{{ prometheus_rule_files }}"
