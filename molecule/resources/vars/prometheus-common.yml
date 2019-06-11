@@ -17,4 +17,4 @@ prometheus_rule_files:
               description: |
                 The configuration file for {{$labels.job}} at {{$labels.instance}}
                 is invalid and was therefore not reloaded.
-              {% endraw %{
+              {% endraw %}
