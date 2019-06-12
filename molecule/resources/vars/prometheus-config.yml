@@ -12,15 +12,15 @@ prometheus_config:
     # define the scrape_timeout
     scrape_timeout: 10s
 
-    scrape_configs:
-      # scrape prometheus metrics
-      - job_name: "prometheus"
-        static_configs:
-          - targets: ["localhost:9090"]
-      # scrape node_exporter metrics
-      - job_name: "node_exporter"
-        static_configs:
-          - targets: ["localhost:9100"]
+  scrape_configs:
+    # scrape prometheus metrics
+    - job_name: "prometheus"
+      static_configs:
+        - targets: ["localhost:9090"]
+    # scrape node_exporter metrics
+    - job_name: "node_exporter"
+      static_configs:
+        - targets: ["localhost:9100"]
 
 prometheus_rule_files:
   prometheus: |
@@ -34,7 +34,7 @@ prometheus_rule_files:
               service: prometheus
               severity: critical
             annotations:
-              title: {{$labels.job}} has an invalid config
+              title: |
+                {% raw %}{{$labels.job}}{% endraw %} has an invalid config
               description: |
-                The configuration file for {{$labels.job}} at {{$labels.instance}}
-                is invalid and was therefore not reloaded.
+                The configuration file for {% raw %}{{$labels.job}}{% endraw %} at {% raw %}{{$labels.instance}}{% endraw %} is invalid and was therefore not reloaded.
