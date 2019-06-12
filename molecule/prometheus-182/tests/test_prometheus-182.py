@@ -36,13 +36,13 @@ def test_prometheus_rules(host):
     assert d.exists
     assert d.user == 'prometheus'
     assert d.group == 'prometheus'
-    assert oct(d.mode) == '0755'
+    assert d.mode == 0o755
 
     f = host.file('/etc/prometheus/rules/prometheus.yml')
     assert f.exists
     assert f.user == 'prometheus'
     assert f.group == 'prometheus'
-    assert oct(f.mode) == '0644'
+    assert f.mode == 0o644
 
     host.run_test("/usr/local/bin/promtool check-rules /etc/prometheus/rules/prometheus.yml")
 
