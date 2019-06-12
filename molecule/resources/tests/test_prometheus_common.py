@@ -20,21 +20,6 @@ def test_prometheus_config(host):
     assert oct(f.mode) == '0640'
 
 
-def test_prometheus_rules(host):
-
-    d = host.file('/etc/prometheus/rules')
-    assert d.exists
-    assert d.user == 'prometheus'
-    assert d.group == 'prometheus'
-    assert oct(d.mode) == '0755'
-
-    f = host.file('/etc/prometheus/rules/prometheus.yml')
-    assert f.exists
-    assert f.user == 'prometheus'
-    assert f.group == 'prometheus'
-    assert oct(f.mode) == '0644'
-
-
 def test_prometheus_tsdb(host):
 
     d = host.file('/var/lib/prometheus/')
