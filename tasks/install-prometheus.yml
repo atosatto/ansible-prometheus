@@ -1,7 +1,19 @@
 ---
 
-- include: github-release.yml
-  when: prometheus_release_url == ''
+- name: Create the Prometheus group
+  group:
+    name: "{{ prometheus_group }}"
+    system: true
+
+- name: Create the Prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    system: yes
+    createhome: no
+
+- include: github-prometheus-release.yml
+  when: not prometheus_release_url
 
 - name: Make sure the Prometheus installation directory exists
   file:
@@ -31,18 +43,7 @@
     src: "{{ _prometheus_install_path }}/{{ item }}"
     dest: "{{ prometheus_bin_path }}/{{ item }}"
     state: link
+  notify: restart prometheus
   with_items:
     - prometheus
     - promtool
-
-- name: Create the Prometheus group
-  group:
-    name: "{{ prometheus_group }}"
-    system: true
-
-- name: Create the Prometheus user
-  user:
-    name: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
-    system: yes
-    createhome: no

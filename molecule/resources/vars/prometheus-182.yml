@@ -1,0 +1,17 @@
+---
+
+prometheus_release_tag: "v1.8.2"
+
+prometheus_rule_files:
+  prometheus: |
+    ALERT PrometheusInvalidConfigFile
+    IF prometheus_config_last_reload_successful == 0
+    FOR 30m
+    LABELS {
+      service = "prometheus",
+      severity = "critical",
+    }
+    ANNOTATIONS {
+      title = "{% raw %}{{ $labels.job }} has an invalid config.{% endraw %}",
+      description = "{% raw %}The configuration file for {{ $labels.job }} at {{ $labels.instance }} is invalid and was therefore not reloaded.{% endraw %}.",
+    }

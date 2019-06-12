@@ -2,7 +2,7 @@
 
 - name: Install Prometheus v1.8.2
   hosts: all
-  vars:
-    prometheus_release_tag: "v1.8.2"
+  vars_files:
+    - ../resources/vars/prometheus-182.yml
   roles:
     - { role: ansible-prometheus }

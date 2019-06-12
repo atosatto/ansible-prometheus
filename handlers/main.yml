@@ -5,6 +5,11 @@
     name: prometheus
     state: restarted
 
+- name: reload prometheus
+  service:
+    name: prometheus
+    state: reloaded
+
 - name: reload systemd and restart prometheus
   command: systemctl daemon-reload
   notify: restart prometheus

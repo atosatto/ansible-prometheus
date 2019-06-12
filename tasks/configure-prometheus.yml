@@ -18,7 +18,7 @@
 
 - name: Define the Prometheus configuration validation command
   set_fact:
-    _prometheus_promtool_validate_cmd: |-
+    _prometheus_promtool_check_config_cmd: |-
       {% if prometheus_release_tag == 'latest' or prometheus_release_tag | regex_replace('^v(.*)$', '\\1') is version_compare('2.0.0', '>=') %}
       {{ prometheus_bin_path }}/promtool check config %s
       {% else %}
@@ -32,8 +32,8 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
-    validate: "{{ _prometheus_promtool_validate_cmd }}"
-  notify: restart prometheus
+    validate: "{{ _prometheus_promtool_check_config_cmd }}"
+  notify: reload prometheus
 
 - name: Create the Systemd Unit file for the Prometheus service
   template:

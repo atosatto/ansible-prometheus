@@ -30,3 +30,8 @@ def test_prometheus_release(host):
     cmd = host.run('/usr/local/bin/prometheus --version')
 
     assert 'version ' + prom_last_release in (cmd.stdout + cmd.stderr)
+
+
+def validate_prometheus_config(host):
+
+    host.run_test("/usr/local/bin/promtool check config /etc/prometheus/prometheus.yml")

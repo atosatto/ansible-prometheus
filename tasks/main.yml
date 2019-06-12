@@ -1,7 +1,8 @@
 ---
 
-- include: install.yml
-- include: configure.yml
+- include: install-prometheus.yml
+- include: configure-prometheus.yml
+- include: configure-rules.yml
 
 - name: Start and enable the Prometheus service
   service:

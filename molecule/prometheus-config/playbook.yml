@@ -2,25 +2,7 @@
 
 - name: Install Prometheus with Custom Configuration
   hosts: all
-  vars:
-    # install Prometheus from a custom release URL
-    prometheus_release_url: |-
-      https://github.com/prometheus/prometheus/releases/download/v2.7.1/prometheus-2.7.1.linux-amd64.tar.gz
-    # overrides the default configuration defined in vars/main.yml
-    prometheus_config:
-      global:
-        # overrides the default scrape_interval of 15s
-        scrape_interval: 1m
-        # defines the a new scrape_timeout global variable
-        scrape_timeout: 10s
-      scrape_configs:
-        # scrape prometheus metrics
-        - job_name: "prometheus"
-          static_configs:
-            - targets: ["localhost:9090"]
-        # scrape node_exporter metrics
-        - job_name: "node_exporter"
-          static_configs:
-            - targets: ["localhost:9100"]
+  vars_files:
+    - ../resources/vars/prometheus-config.yml
   roles:
     - { role: ansible-prometheus }
