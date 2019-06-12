@@ -20,3 +20,13 @@ def test_prometheus_custom_config(host):
     assert f.contains('job_name: prometheus')
     # we check that the 'node_exporter' job is defined
     assert f.contains('job_name: node_exporter')
+
+
+def validate_prometheus_config(host):
+
+    host.run_test("/usr/local/bin/promtool check config /etc/prometheus/prometheus.yml")
+
+
+def validate_prometheus_rules(host):
+
+    host.run_test("/usr/local/bin/promtool check rules /etc/prometheus/rules/prometheus.yml")

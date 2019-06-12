@@ -3,7 +3,6 @@
 - name: Install Prometheus with Custom Configuration
   hosts: all
   vars_files:
-    - ../resources/vars/prometheus-common.yml
     - ../resources/vars/prometheus-config.yml
   roles:
     - { role: ansible-prometheus }

@@ -19,8 +19,6 @@ def test_prometheus_config(host):
     assert f.group == 'prometheus'
     assert oct(f.mode) == '0640'
 
-    host.run("/usr/local/bin/promtool check config /etc/prometheus/prometheus.yml").rc == 0
-
 
 def test_prometheus_rules(host):
 
@@ -34,9 +32,7 @@ def test_prometheus_rules(host):
     assert f.exists
     assert f.user == 'prometheus'
     assert f.group == 'prometheus'
-    assert oct(f.mode) == '0640'
-
-    host.run("/usr/local/bin/promtool check rules /etc/prometheus/rules/prometheus.yml").rc == 0
+    assert oct(f.mode) == '0644'
 
 
 def test_prometheus_tsdb(host):

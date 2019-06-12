@@ -3,7 +3,6 @@
 - name: Install Prometheus v1.8.2
   hosts: all
   vars_files:
-    - ../resources/vars/prometheus-common.yml
     - ../resources/vars/prometheus-182.yml
   roles:
     - { role: ansible-prometheus }

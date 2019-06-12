@@ -21,3 +21,20 @@ prometheus_config:
       - job_name: "node_exporter"
         static_configs:
           - targets: ["localhost:9100"]
+
+prometheus_rule_files:
+  prometheus: |
+    groups:
+      - name: prometheus.rules
+        rules:
+          - alert: PrometheusInvalidConfigFile
+            expr: prometheus_config_last_reload_successful == 0
+            for: 30m
+            labels:
+              service: prometheus
+              severity: critical
+            annotations:
+              title: {{$labels.job}} has an invalid config
+              description: |
+                The configuration file for {{$labels.job}} at {{$labels.instance}}
+                is invalid and was therefore not reloaded.
