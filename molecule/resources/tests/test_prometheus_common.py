@@ -11,13 +11,13 @@ def test_prometheus_config(host):
     assert d.exists
     assert d.user == 'prometheus'
     assert d.group == 'prometheus'
-    assert oct(d.mode) == '0755'
+    assert d.mode == 0o755
 
     f = host.file('/etc/prometheus/prometheus.yml')
     assert f.exists
     assert f.user == 'prometheus'
     assert f.group == 'prometheus'
-    assert oct(f.mode) == '0640'
+    assert f.mode == 0o640
 
 
 def test_prometheus_tsdb(host):
@@ -26,7 +26,7 @@ def test_prometheus_tsdb(host):
     assert d.exists
     assert d.user == 'prometheus'
     assert d.group == 'prometheus'
-    assert oct(d.mode) == '0755'
+    assert d.mode == 0o755
 
 
 def test_prometheus_service(host):
