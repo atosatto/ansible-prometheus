@@ -17,9 +17,10 @@
   uri:
     url: "{{ _prometheus_github_api_url }}"
     method: GET
-    HEADER_Authorization: "{% if _prometheus_github_api_token %}token {{ _prometheus_github_api_token }}{% endif %}"
+    headers:
+          Authorization: "{% if _prometheus_github_api_token %}token {{ _prometheus_github_api_token }}{% endif %}"
   register: _prometheus_github_release
-  until: _prometheus_github_release.status == 200
+  until: "'status' in _prometheus_github_release and _prometheus_github_release['status'] == 200"
   retries: 5
   delay: 15
 

@@ -12,31 +12,47 @@ dependency:
 
 platforms:
 
-  - name: centos-7
+  - name: prometheus-centos-7
     image: centos:7
-    dockerfile_tpl: centos-systemd
+    dockerfile: ../resources/Dockerfile.centos-systemd.j2
+    command: "/usr/sbin/init"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
-  - name: ubuntu-1604
-    image: ubuntu:16.04
-    dockerfile_tpl: debian-systemd
+  - name: prometheus-centos-8
+    image: centos:7
+    dockerfile: ../resources/Dockerfile.centos-systemd.j2
+    command: "/usr/sbin/init"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
-  - name: ubuntu-1804
+  - name: prometheus-ubuntu-1804
     image: ubuntu:18.04
-    dockerfile_tpl: debian-systemd
+    dockerfile: ../resources/Dockerfile.debian-systemd.j2
+    command: "/sbin/init"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
-  - name: debian-9
-    image: debian:9
-    dockerfile_tpl: debian-systemd
+  - name: prometheus-debian-10
+    image: debian:10
+    dockerfile: ../resources/Dockerfile.debian-systemd.j2
+    command: "/sbin/init"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      dockerswarm-centos-8:
+        ansible_python_interpreter: "/usr/bin/python3"
   options:
     diff: True
     v: True
-  playbooks:
-    create: ../resources/create.yml
-    destroy: ../resources/destroy.yml
-    prepare: ../resources/prepare.yml
   lint:
     name: ansible-lint
 
