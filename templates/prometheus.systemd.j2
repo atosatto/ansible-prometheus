@@ -17,8 +17,10 @@ ExecStart={{ prometheus_bin_path }}/prometheus \
     --storage.local.path {{ prometheus_tsdb_path }} \
     --storage.local.retention {{ prometheus_tsdb_retention }} \
     {% endif -%}
-    --log.level {{ prometheus_log_level }} \
+    --log.level {{ prometheus_log_level }}{% if prometheus_additional_cli_args | length > 0 %} \
+    {% endif -%}
     {{ prometheus_additional_cli_args }}
+
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=always
 
