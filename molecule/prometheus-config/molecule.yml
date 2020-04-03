@@ -48,7 +48,7 @@ provisioner:
   name: ansible
   inventory:
     host_vars:
-      dockerswarm-centos-8:
+      prometheus-centos-8:
         ansible_python_interpreter: "/usr/bin/python3"
   options:
     diff: True
