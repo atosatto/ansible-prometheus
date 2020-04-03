@@ -5,23 +5,23 @@ galaxy_info:
   description: Install and Configure Prometheus
   issue_tracker_url: https://github.com/atosatto/ansible-prometheus/issues
   license: MIT
-  min_ansible_version: 2.2
+  min_ansible_version: 2.7
 
   platforms:
     - name: EL
       versions:
         - 7
+        - 8
     - name: Ubuntu
       versions:
-        - trusty
-        - utopic
-        - vivid
-        - wily
+        - foscal
         - xenial
+        - bionic
     - name: Debian
       versions:
         - stretch
         - jessie
+        - buster
 
   galaxy_tags:
     - prometheus
