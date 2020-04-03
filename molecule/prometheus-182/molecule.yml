@@ -21,7 +21,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
   - name: prometheus-centos-8
-    image: centos:7
+    image: centos:8
     dockerfile: ../resources/Dockerfile.centos-systemd.j2
     command: "/usr/sbin/init"
     privileged: true
