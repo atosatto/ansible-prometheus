@@ -127,7 +127,7 @@ To test all the scenarios run
 
 To run a custom molecule command
 
-    $ tox -e py27-ansible23 -- molecule test -s prometheus-latest
+    $ tox -e py27-ansible29 -- molecule test -s prometheus-latest
 
 License
 -------
